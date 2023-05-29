@@ -1,1 +1,1 @@
-# spring-ecommerce
+# spring-ecommerce-for-learning
