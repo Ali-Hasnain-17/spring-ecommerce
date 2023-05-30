@@ -1,7 +1,7 @@
 package com.ecommerce.ecommerce.config;
 
 import com.ecommerce.ecommerce.filters.JwtFilter;
-import com.ecommerce.ecommerce.services.MyUserDetailsService;
+import com.ecommerce.ecommerce.service.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,22 +30,14 @@ public class SecurityConfig {
         return userDetailsService;
     }
 
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/auth/register", "/api/auth/authenticate")
-                .permitAll()
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/test")
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+        return httpSecurity.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/register", "/api/auth/authenticate").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

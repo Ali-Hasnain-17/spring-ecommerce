@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.services;
+package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.models.MyUserDetails;
 import com.ecommerce.ecommerce.models.User;
